@@ -5,6 +5,10 @@
 
 \input{metadata_tog}
 
+% Supplementary material configuration
+% Comment next line to render supplement. Uncomment to omit it.
+% \includeonly{}
+
 \begin{document}
 
 \input{metadata_paper}
@@ -23,12 +27,28 @@
 
 \input{tab_example}
 
+% Uncomment acknowledgement section only for camera-ready
 %\input{sec_acks}
 
+% Bibliography
 \bibliographystyle{acmart}
 \bibliography{paper}
 
-\appendix
+% Supplementary material
+\appendixpageoff
+\appendixtitleoff
+\renewcommand{\appendixtocname}{Supplementary material}
+\begin{appendices}
+\crefalias{section}{supp}
+\normalsize
+
+\begin{filecontents}{\jobname-support}
+\clearpage
+\pagenumbering{roman}
+\input{sec_supp}
+\end{filecontents}
+\include{\jobname-support}
+\end{appendices}
 
 \end{document}
 \endinput
