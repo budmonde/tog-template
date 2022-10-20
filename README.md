@@ -24,3 +24,19 @@ To clean-up the generated files, run
 ```shell
 make clean
 ```
+## Contents
+
+The main logic of the source file organization is inside `paper.tex` and the bibliography is inside `paper.bib`.
+However, the entry points for build pipelines are in `out_draft.tex` and `out_final.tex` respectively.
+If you're using an external IDE for building the source files, set either of these sources as the entry point of the compilation.
+
+The rest of the source files are named so that it's easier to navigate through them in overleaf.
+Each group of files are:
+- `conf_<name>.tex` - any configuration / latex definitions you might need
+- `fig_<name>.tex` - figure generation source files
+- `metadata_<name>.tex` - metadata relating to the publication such as authors, journal article number, rights info etc.
+- `sec_<name>.tex` - individual sections that make up the document
+- `tab_<name>.tex` - table generation source files
+
+Additionally, the original manual for ACM template usage document is kept in this repo named `_acmguide.pdf` and `_template_guide.pdf`.
+If you need information regarding specifically the `acmart` class, please refer to these documents.
