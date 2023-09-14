@@ -1,12 +1,29 @@
-FINAL = out_final
-DRAFT = out_draft
+TARGETS    = targets
+BUILD      = build
 
-.PHONY: clean
+.PHONY: all internal submission revision camready camauthor clean
 
-all: final draft
+all: internal submission revision camready camauthor
 
-final: $(FINAL).manuscript.compressed.pdf $(FINAL).supplement.compressed.pdf $(FINAL).all.compressed.pdf
-draft: $(DRAFT).manuscript.compressed.pdf $(DRAFT).supplement.compressed.pdf $(DRAFT).all.compressed.pdf
+internal:   $(BUILD)/internal.manuscript.compressed.pdf\
+            $(BUILD)/internal.supplement.compressed.pdf\
+	    $(BUILD)/internal.all.compressed.pdf
+
+submission: $(BUILD)/submission.manuscript.compressed.pdf\
+            $(BUILD)/submission.supplement.compressed.pdf\
+	    $(BUILD)/submission.all.compressed.pdf
+
+revision:   $(BUILD)/revision.manuscript.compressed.pdf\
+            $(BUILD)/revision.supplement.compressed.pdf\
+	    $(BUILD)/revision.all.compressed.pdf
+
+camready:   $(BUILD)/camready.manuscript.compressed.pdf\
+            $(BUILD)/camready.supplement.compressed.pdf\
+	    $(BUILD)/camready.all.compressed.pdf
+
+camauthor:  $(BUILD)/camauthor.manuscript.compressed.pdf\
+            $(BUILD)/camauthor.supplement.compressed.pdf\
+	    $(BUILD)/camauthor.all.compressed.pdf
 
 %.compressed.pdf : %.pdf
 	gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.5 -dNOPAUSE -dQUIET -dBATCH -dPrinted=false -sOutputFile=$*.compressed.pdf $*.pdf
@@ -16,29 +33,25 @@ draft: $(DRAFT).manuscript.compressed.pdf $(DRAFT).supplement.compressed.pdf $(D
 
 %.manuscript.pdf : %.all.pdf
 	# Make manuscript version of paper.tex
-	cat $*.tex | sed 's/\\\input{paper}/\\\input{paper.manuscript}/' > $*.manuscript.tex
+	cat $(TARGETS)/$(*F).tex | sed 's/\\\input{paper}/\\\input{paper.manuscript}/' > $(TARGETS)/$(*F).manuscript.tex
 	# First generate support files
 	cat paper.tex | sed 's/^.*\\\includeonly{}/% \\\includeonly{}/' > paper.manuscript.tex
-	pdflatex -jobname=$*.manuscript $*.manuscript.tex
+	pdflatex -jobname=$*.manuscript $(TARGETS)/$(*F).manuscript.tex
 	# Remove supplement section
 	cat paper.tex | sed 's/^.*\\\includeonly{}/\\\includeonly{}/' > paper.manuscript.tex
-	pdflatex -jobname=$*.manuscript $*.manuscript.tex
+	pdflatex -jobname=$*.manuscript $(TARGETS)/$(*F).manuscript.tex
 	bibtex $*.manuscript.aux
-	pdflatex -jobname=$*.manuscript $*.manuscript.tex
-	pdflatex -jobname=$*.manuscript $*.manuscript.tex
+	pdflatex -jobname=$*.manuscript $(TARGETS)/$(*F).manuscript.tex
+	pdflatex -jobname=$*.manuscript $(TARGETS)/$(*F).manuscript.tex
 	# Clean-up temporary files
-	rm -f paper.manuscript.tex $*.manuscript.tex
+	rm -f paper.manuscript.tex $(TARGETS)/$(*F).manuscript.tex
 
 %.all.pdf :
-	pdflatex -jobname=$*.all $*.tex
+	mkdir -p $(BUILD)
+	pdflatex -jobname=$*.all $(TARGETS)/$(*F).tex
 	bibtex $*.all.aux
-	pdflatex -jobname=$*.all $*.tex
-	pdflatex -jobname=$*.all $*.tex
+	pdflatex -jobname=$*.all $(TARGETS)/$(*F).tex
+	pdflatex -jobname=$*.all $(TARGETS)/$(*F).tex
 
 clean:
-	rm -f *.blg *.bbl *.aux *.log *.out *.cut
-	rm -f *.all.compressed.pdf *.all.pdf
-	rm -f *.all-support.tex
-	rm -f *.manuscript.compressed.pdf *.manuscript.pdf
-	rm -f *.manuscript-support.tex
-	rm -f *.supplement.compressed.pdf *.supplement.pdf
+	rm -rf $(BUILD)

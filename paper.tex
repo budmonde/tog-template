@@ -1,34 +1,30 @@
-\input{conf_packages}
-\input{conf_macros}
-\input{conf_symbols}
-\input{conf_graphicspath}
+\input{conf/packages}
+\input{conf/macros}
+\input{conf/symbols}
 
-\input{metadata_tog}
+\input{metadata/tog}
+\input{metadata/paper}
+\input{metadata/index}
 
-% Supplementary material configuration
-% Comment next line to render supplement. Uncomment to omit it.
+%%% Supplementary material configuration %%%
+%%% Makefile automatically manages this line. DO NOT EDIT.
+%%% When commented supplement is rendered and vice versa.
 % \includeonly{}
+%%% Supplementary material configuration %%%
 
 \begin{document}
 
-\input{metadata_paper}
-\input{metadata_index}
-
-\input{fig_teaser}
-\input{sec_abstract}
+\input{figures/teaser}
+\input{sections/abstract}
 
 \maketitle
 
-\input{sec_introduction}
-\input{sec_related}
-\input{sec_method}
-\input{sec_result}
-\input{sec_future-work}
+\todolist
 
-\input{tab_example}
+\input{sections/document}
 
 % Uncomment acknowledgement section only for camera-ready
-%\input{sec_acks}
+%\input{sections/acks}
 
 % Bibliography
 \bibliographystyle{acmart}
@@ -45,7 +41,7 @@
 \begin{filecontents}{\jobname-support.tex}
 \clearpage
 \pagenumbering{roman}
-\input{sec_supp}
+\input{sections/supp}
 \end{filecontents}
 \include{\jobname-support}
 \end{appendices}

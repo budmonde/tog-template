@@ -1,0 +1,128 @@
+%
+% Colors
+%
+\definecolor{INCOMPLETECOLOR}{RGB}{178,34,34}
+\definecolor{UNDERREVISIONCOLOR}{RGB}{210,121,121}
+\definecolor{FEEDBACKNEEDEDCOLOR}{RGB}{230,170,50}
+\definecolor{FEEDBACKGIVENCOLOR}{RGB}{121,210,121}
+\definecolor{COMPLETECOLOR}{RGB}{121,124,210}
+\definecolor{LOCKEDCOLOR}{RGB}{153,102,255}
+
+\definecolor{TODOCOLOR}{RGB}{255,0,0}
+\definecolor{MONDECOLOR}{RGB}{0,0,255}
+\definecolor{QICOLOR}{RGB}{0,255,0}
+\definecolor{ANJULCOLOR}{RGB}{127,127,0}
+\definecolor{RACHELCOLOR}{RGB}{127,0,127}
+\definecolor{GUESTCOLOR}{RGB}{0,127,127}
+
+\definecolor{WHITE}{RGB}{255,255,255}
+
+%
+% Global macros
+%
+\newcommand{\nothing}[1]{}
+\newcommand{\isolated}[1]{\hfill\break#1\hfill}
+\newcommand{\Caption}[2]{\caption[#1]{{\em #1} #2}}
+\newcommand{\Quote}[1]{{``#1''}}
+
+\newcommand{\Ie}{{I.e.,}\xspace}
+\newcommand{\ie}{{i.e.,}\xspace}
+\newcommand{\Eg}{{E.g.,}\xspace}
+\newcommand{\eg}{{e.g.,}\xspace}
+\newcommand{\etal}{{et~al\xperiod}\xspace}
+\newcommand{\aka}{{a.k.a.,}\xspace}
+\newcommand{\etc}{{etc\xperiod}\xspace}
+\newcommand{\cf}{{cf\xperiod}\xspace}
+
+%
+% Adding Comments
+%
+\ifthenelse{\equal{\status}{0}} {                     % INTERNAL Version
+
+    \newcommand{\todo}[1]{
+        \addcontentsline{toc}{subsection}{            %
+            \protect\numberline{}                     % Align text appropriately
+            \textcolor{TODOCOLOR}{[TODO] #1}}         % Add todo to the table of contents
+        \isolated{
+            \textcolor{TODOCOLOR}{[TODO] \emph{#1}}}} % Typeset the todo note in the text
+    \newcommand{\warning}[1]{\todo{#1}}
+    \newcommand{\note}[1]{{\it\color{blue} #1}}
+
+    \newcommand{\todolist}{\tableofcontents}
+
+    % Usage: \monde[(OPTIONAL) Text to underline]{Comment.}
+    \newcommandx{\monde}[2][1=]
+        {\setulcolor{MONDECOLOR}{\ul{#1}}
+         \isolated{\textcolor{MONDECOLOR}{\textbf{Monde:} #2}}}
+    \newcommandx{\qi}[2][1=]
+        {\setulcolor{QICOLOR}{\ul{#1}}
+         \isolated{\textcolor{QICOLOR}{\textbf{Qi:} #2}}}
+    \newcommandx{\anjul}[2][1=]
+        {\setulcolor{ANJULCOLOR}{\ul{#1}}
+         \isolated{\textcolor{ANJULCOLOR}{\textbf{Anjul:} #2}}}
+    \newcommandx{\rachel}[2][1=]
+        {\setulcolor{RACHELCOLOR}{\ul{#1}}
+         \isolated{\textcolor{RACHELCOLOR}{\textbf{Rachel:} #2}}}
+
+    % Usage: \guest[(OPTIONAL) Text to underline]{Name}{Comment.}
+    \newcommandx{\guest}[3][1=]
+        {\setulcolor{LOCKEDCOLOR}{\ul{#1}} \textcolor{LOCKEDCOLOR}
+        {[\textbf{#2:} #3]}}
+}{                                                    % NON-INTERNAL Versions
+    \newcommand{\todo}[1]{}
+    \newcommand{\warning}[1]{}
+    \newcommand{\note}[1]{}
+    \newcommand{\todolist}{}
+    \newcommandx{\monde}[2][1=]{#1}
+    \newcommandx{\qi}[2][1=]{#1}
+    \newcommandx{\anjul}[2][1=]{#1}
+    \newcommandx{\rachel}[2][1=]{#1}
+    \newcommandx{\guest}[3][1=]{#1}
+}
+
+%
+% Revision Annotation
+% Usage: \revise{Text to delete.}{Text to insert.}
+%
+
+\ifthenelse{\equal{\status}{0}} {          % INTERNAL Version
+    % Highlight revised text.
+    % Strike-through deleted text
+    \newcommand{\revise}[2]{\textcolor{INCOMPLETECOLOR}{\st{#1}}\textcolor{blue}{#2}}
+}{}
+\ifthenelse{\equal{\status}{1}} {          % SUBMISSION Version
+    \newcommand{\revise}[2]{#2}
+}{}
+\ifthenelse{\equal{\status}{2}} {          % REVISION Version
+    % Highlight revised text.
+    \newcommand{\revise}[2]{\textcolor{blue}{#2}}
+}{}
+\ifthenelse{\equal{\status}{2}} {          % CAMERA-READY Version
+    \newcommand{\revise}[2]{#2}
+}{}
+\ifthenelse{\equal{\status}{2}} {          % CAMERA-READY AUTHOR Version
+    \newcommand{\revise}[2]{#2}
+}{}
+
+%
+% Status Badges
+%
+\ifthenelse{\equal{\status}{0}} {
+    \newcommand{\badge}[2]{\colorbox{#1}{\small\textcolor{WHITE}{\texttt{#2}}}}
+    \newcommand{\headerBadge}[2]{\hspace*{\fill}\badge{#1}{#2}}
+    \newcommand{\locked}{\headerBadge{LOCKEDCOLOR}{locked}}
+    \newcommand{\complete}{\headerBadge{COMPLETECOLOR}{complete}}
+    \newcommand{\feedbackGiven}{\headerBadge{FEEDBACKGIVENCOLOR}{feedback given}}
+    \newcommand{\feedbackNeeded}{\headerBadge{FEEDBACKNEEDEDCOLOR}{feedback needed}}
+    \newcommand{\underRevision}{\headerBadge{UNDERREVISIONCOLOR}{under revision}}
+    \newcommand{\incomplete}{\headerBadge{INCOMPLETECOLOR}{incomplete}}
+}{
+    \newcommand{\badge}[2]{}{}
+    \newcommand{\headerBadge}[2]{}{}
+    \newcommand{\locked}{}
+    \newcommand{\complete}{}
+    \newcommand{\feedbackGiven}{}
+    \newcommand{\feedbackNeeded}{}
+    \newcommand{\underRevision}{}
+    \newcommand{\incomplete}{}
+}

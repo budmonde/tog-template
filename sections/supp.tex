@@ -1,0 +1,181 @@
+% Uncomment next line to make a one-column supplement
+% \onecolumn
+
+\section{How to use this template}
+
+This \LaTeX template was developed to (1) streamline collaborative manuscript editing and (2) automate many processes that manuscripts undergo throughout the publication process of academic papers.
+Many aspects, features, and ideas in this template were adapted from my previous collaborators and mentors such as Qi Sun, Li-Yi Wei and Jane Hoffswell.
+
+\subsection{Usage}
+
+The \LaTeX compilation is managed by a \texttt{Makefile}.
+The \texttt{Makefile} features multiple build targets meant for various versions of the document, such as \texttt{internal} for sharing between collaborators, and \texttt{submission} for anonymous submissions.
+These targets are built by running \texttt{make <target\_name>} (\eg \texttt{make internal}).
+See \Cref{sec:howto:build-pipeline} for details on the various build targets.
+
+\paragraph{Pre-requisites}
+The \texttt{Makefile} assumes the usage of \texttt{pdflatex}, so please make sure to install the \texttt{texlive}, \texttt{texlive-latex-extra}, \texttt{texlive-fonts-recommended}, \texttt{texlive-science}, and \texttt{texlive-x\hfill\break string} packages.
+Additionally, \texttt{ghostscript} is used for separating the document into separate files for the manuscript and supplementary material.
+See more details on this in \Cref{sec:howto:build-pipeline}.
+
+\subsection{\LaTeX\xspace macros for collaborative editing}
+\label{sec:howto:macros}
+
+This template features a number of very convenient macros designed to make collaborative writing much easier and more streamlined.
+All of these macro definitions can be found in \texttt{conf/macros.tex} and edited as necessary.
+Below, we outline what the features are and how to use them.
+
+\paragraph{Tracking Progress: Status Badges and To-do Items}
+When collaborating on a large document, it's often helpful to keep track of what sections have been reviewed, what sections are complete \etc.
+This template enables status tracking of paper sections via \emph{Status Badges} and annotating \emph{To-do Items} which can be viewed in summary at the top of the document.
+
+\emph{Status Badges} indicate what state a particular section of the manuscript is in and allows collaborators to claim, and release sections as necessary.
+To add a badge to a section, simply add the corresponding badge command at the end of the section title.
+For example: \texttt{\textbackslash section\{Section Title \textbackslash incomplete\}}.
+This badge will not only annotate the section title with its corresponding status, but also include the annotation to a summary \Quote{table-of-contents} which appears at the top of the document when rendered in the \texttt{internal} version.
+For the full list of possible status badges, see \Cref{tab:howto:status-badges}.
+%
+\begin{table}[h]
+    \caption{Status badges}
+    \label{tab:howto:status-badges}
+    \begin{tabular}{ll}
+        \toprule
+        Command & Created Badge\\
+        \midrule
+        \texttt{\textbackslash incomplete} & \incomplete\\
+        \texttt{\textbackslash underRevision} & \underRevision\\
+        \texttt{\textbackslash feedbackNeeded} & \feedbackNeeded\\
+        \texttt{\textbackslash feedbackGiven} & \feedbackGiven\\
+        \texttt{\textbackslash complete} & \complete\\
+        \texttt{\textbackslash locked} & \locked\\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\emph{To-do Items} are also a helpful tool for annotating important to-do items that need to be kept track of.
+Including an actionable in the source document as \texttt{\textbackslash todo\{revise this sentence\}} will render the to-do item within the manuscript in a highlighted red color, and also include a copy of this to-do item in the \Quote{table of contents} at the top of the document just like the \emph{Status Badges}.
+
+The combination of these two macros can help collaborators keep track of everything that still needs to be done for a paper submission prior to deadlines.
+
+\paragraph{Exchanging feedback via in-document comments}
+In addition to important to-do items, sometimes it is helpful to simply have asynchronous discussions that aren't necessarily mission critical within the document draft itself.
+To facilitate this workflow, the template also supports macros for in-document comments by multiple collaborators, each highlighted in a different color.
+\monde{For example, I might have some thoughts on the organization of this section.}
+\qi{And I might respond to Monde's concerns in response.}
+
+The current template has pre-defined macros for four collaborators: \texttt{monde}, \texttt{qi}, \texttt{anjul}, and \texttt{rachel}.
+To use the macro call the macro as \texttt{\textbackslash monde\{comment contents\}} for a simple comment.
+\monde[To annotate existing text to reference by the comment,]{like this,}\break
+put the existing text into square brackets.
+For example, \texttt{\textbackslash monde[anno\hfill\break tated text]\{comment contents\}}.
+There is also a generic \texttt{guest} command to allow a guest to input their name into their comment without having to define a new macro.
+To use this version, call the macro as \texttt{\textbackslash guest\{name\}\{comment contents\}} for a simple comment and \texttt{\textbackslash guest[annotated text]\{name\}\{comment contents\}} for annotated comments.
+
+\paragraph{Revision annotation}
+During the revision stage of a document for publication, reviewers often ask for specific edits to the manuscript.
+To enable an easy back and forth between the reviewer and the authors, highlighting all the changed text can be very helpful.
+To this end, this template features a \texttt{\textbackslash revise\{text to remove\}\{text to add\}} macro which annotates both removed and added text if used.
+By inputting the to-be-removed text in the first argument, and the to-be-added text in the second argument, the annotation \revise{won't}{will} look like this.
+By default, the removed text will only be shown in the \texttt{internal} version of the document, while the \texttt{revision} version of the document only shows the added text.
+But you can edit this behavior in the \texttt{conf/macros.tex} file.
+The automated build pipeline (\cf \Cref{sec:howto:build-pipeline}) allows seamless changes between the different versions of how a revised text should be rendered.
+
+\subsection{File Organization}
+
+This template is organized into a granular structure and logical separation of various types of source files that make up a \LaTeX document.
+\Cref{tab:howto:path-description} explains what types of files are at the various paths.
+%
+\begin{table}[h]
+    \caption{File paths and their functions}
+    \label{tab:howto:path-description}
+    \begin{tabular}{ll}
+        \toprule
+        Path & Function\\
+        \midrule
+        \texttt{sections} & numbered section \LaTeX\xspace source files\\
+        \texttt{sections/abstract.tex} & document abstract\\
+        \texttt{sections/acks.tex} & acknowledgements section\\
+        \texttt{sections/document.tex} & manuscript sections entry point\\
+        \texttt{sections/readme.tex} & how to use this template\\
+        \texttt{sections/supp.tex} & supp. material entry point\\
+        \texttt{tables} & table \LaTeX\xspace source files\\
+        \texttt{figures} & figure \LaTeX\xspace source files\\
+        \texttt{assets} & illustrations and plots\\
+        \texttt{conf} & \LaTeX\xspace configurations\\
+        \texttt{metadata} & metadata of the document\\
+        \texttt{targets} & \LaTeX\xspace compilation entry points\\
+        \texttt{paper.tex} & combination of source files\\
+        \texttt{paper.bib} & bibliography\\
+        \texttt{Makefile} & build pipeline definitions\\
+        \texttt{build} & build outputs\\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\paragraph{Sections}
+All numbered sections are combined in \texttt{sections/docu\hfill\break ment.tex}, which in turn is inputted in the compilation process in \texttt{paper.tex}.
+Each numbered section name is prepended with its number for visual clarity, and each section is given its \LaTeX\xspace label in the form \texttt{\textbackslash label\{sec:<section\_name>\}}.
+Further subsection labels are nested as \texttt{sec:<section\_name>:<subsection\_name>}.
+
+\paragraph{Tables and Figures}
+All table and figure source files are separated from \emph{Section} source files to enable easy edits to where a figure should be added in the source.
+Each figure is given its \LaTeX\xspace label in the form \texttt{\textbackslash label\{tab:<table\_name>\}} or \texttt{\textbackslash label\{fig:figure\_name\}}
+
+\paragraph{Packages, Aliases, and Macros}
+\LaTeX\xspace package imports are consolidated in \texttt{conf/packages.tex}.
+To avoid complications when some packages need to be deprecated in the future, it's advised that the specific usage of each package is documented as a comment.
+For example, we use the \texttt{soul} package to enable underlining and strike-through functionality for annotating collaborator comments, and text revisions.
+If in the future, either this feature of the template is changed or removed, removing this package dependency will be much easier to identify and execute.
+
+All symbol aliases used during writing are consolidated within \texttt{conf/symbols.tex}, while more complex macros are in \texttt{conf/macro\hfill\break s.tex}.
+More details on what kind of macros are used in this template are in \Cref{sec:howto:macros}.
+
+\paragraph{Paper metadata}
+All source files pertaining to paper metadata, such as the title, authors, journal number, publication year \etc are included in \texttt{metadata/} and are self-explanatory.
+These metadata fields are inserted into the compilation in \texttt{paper.tex}.
+If you're changing the document class, include any document class related metadata fields in the \texttt{metadata/} directory, and change the organization of source files within \texttt{paper.tex}.
+
+\paragraph{Build targets}
+All build targets have their associated \LaTeX\xspace entry point inside \texttt{targets/} as well as a  \texttt{Makefile} target.
+See more details about the build pipeline in \Cref{sec:howto:build-pipeline}.
+
+\subsection{Build Pipeline}
+\label{sec:howto:build-pipeline}
+
+The build process of the manuscript is fully automated via a \texttt{Makefile} and allows the user to seamlessly produce different versions of the manuscript and supplementary materials documents.
+\ie the document can be produced at various stages of \Quote{readiness for publication}, with each different stage revealing or hiding various comments and annotations.
+The supported document stages are described in \Cref{tab:howto:doc-stages}.
+%
+\begin{table}[h]
+    \caption{Document stages and their usage and features.}
+    \label{tab:howto:doc-stages}
+    \begin{tabular}{ll}
+        \toprule
+        Build target & Usage and features\\
+        \midrule
+        \texttt{internal} & internal collaborative use with comments shown\\
+        \texttt{submission} & anonymous submission with no annotations\\
+        \texttt{revision} & annotated anonymous revision for reviewers\\
+        \texttt{camready} & final camera-ready with author names shown\\
+        \texttt{camauthor} & author-version for sharing post-publication\\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+You may add additional document stages by
+%
+\begin{itemize}
+    \item adding a new \LaTeX compilation entry file inside \texttt{targets/},
+    \item updating the \texttt{Makefile} targets, and
+    \item adding your custom logic for what annotations to enable in \texttt{conf/macros.tex}.
+\end{itemize}
+
+\paragraph{Automated manuscript and supp. material separation}
+Often a paper publication requires an associated supplementary materials section for any exposition that does not central to the publication and are omitted from the main manuscript.
+In order to take advantage of \LaTeX\xspace cross-referencing features, such as \texttt{\textbackslash Cref}, it's best to compile all the source files in one batch and generate a single PDF output.
+However, doing so requires post-processing on the outputted file to separate them into multiple PDFs via an external application such as Adobe Acrobat \etc.
+Additionally, many paper templates also print the number of pages of the document which include the supplementary material pages if this method is used to generate two separate files for the main manuscript and the supplementary material.
+
+This template takes care of these manual steps and also solves the page count issue and keeps all the complexity of the compilation and post-processing logic tucked away in the \texttt{Makefile}.
+In order to take advantage of this feature, make sure to use the Makefile to compile your document and have its dependent \texttt{ghostscript} package installed on your machine.
+
