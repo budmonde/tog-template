@@ -10,7 +10,7 @@
 
 \definecolor{TODOCOLOR}{RGB}{255,0,0}
 \definecolor{MONDECOLOR}{RGB}{0,0,255}
-\definecolor{QICOLOR}{RGB}{0,255,0}
+\definecolor{QICOLOR}{RGB}{118,185,0}
 \definecolor{ANJULCOLOR}{RGB}{127,127,0}
 \definecolor{RACHELCOLOR}{RGB}{127,0,127}
 \definecolor{GUESTCOLOR}{RGB}{0,127,127}
@@ -21,7 +21,7 @@
 % Global macros
 %
 \newcommand{\nothing}[1]{}
-\newcommand{\isolated}[1]{\hfill\break#1\hfill}
+\newcommand{\isolated}[1]{\hfill\break#1\xspace}
 \newcommand{\Caption}[2]{\caption[#1]{{\em #1} #2}}
 \newcommand{\Quote}[1]{{``#1''}}
 
@@ -39,22 +39,21 @@
 %
 \ifthenelse{\equal{\status}{0}} {                     % INTERNAL Version
 
-    \newcommand{\todo}[1]{
-        \addcontentsline{toc}{subsection}{            %
-            \protect\numberline{}                     % Align text appropriately
-            \textcolor{TODOCOLOR}{[TODO] #1}}         % Add todo to the table of contents
-        \isolated{
-            \textcolor{TODOCOLOR}{[TODO] \emph{#1}}}} % Typeset the todo note in the text
+    \newcommand{\todo}[1]{%
+        \addcontentsline{toc}{subsection}{%           %
+            \protect\numberline{}%                    % Align text appropriately
+            \textcolor{TODOCOLOR}{[TODO] #1}}%        % Add todo to the table of contents
+            \textcolor{TODOCOLOR}{[TODO] \emph{#1}}}% % Typeset the todo note in the text
     \newcommand{\warning}[1]{\todo{#1}}
     \newcommand{\note}[1]{{\it\color{blue} #1}}
 
-    \newcommand{\todolist}{\tableofcontents}
+    \newcommand{\todolist}{\newpage\tableofcontents}
 
     % Usage: \monde[(OPTIONAL) Text to underline]{Comment.}
     \newcommandx{\monde}[2][1=]
         {\setulcolor{MONDECOLOR}{\ul{#1}}
          \isolated{\textcolor{MONDECOLOR}{\textbf{Monde:} #2}}}
-    \newcommandx{\qi}[2][1=]
+    \newcommandx{\qisun}[2][1=]
         {\setulcolor{QICOLOR}{\ul{#1}}
          \isolated{\textcolor{QICOLOR}{\textbf{Qi:} #2}}}
     \newcommandx{\anjul}[2][1=]
@@ -74,7 +73,7 @@
     \newcommand{\note}[1]{}
     \newcommand{\todolist}{}
     \newcommandx{\monde}[2][1=]{#1}
-    \newcommandx{\qi}[2][1=]{#1}
+    \newcommandx{\qisun}[2][1=]{#1}
     \newcommandx{\anjul}[2][1=]{#1}
     \newcommandx{\rachel}[2][1=]{#1}
     \newcommandx{\guest}[3][1=]{#1}
@@ -97,10 +96,10 @@
     % Highlight revised text.
     \newcommand{\revise}[2]{\textcolor{blue}{#2}}
 }{}
-\ifthenelse{\equal{\status}{2}} {          % CAMERA-READY Version
+\ifthenelse{\equal{\status}{3}} {          % CAMERA-READY Version
     \newcommand{\revise}[2]{#2}
 }{}
-\ifthenelse{\equal{\status}{2}} {          % CAMERA-READY AUTHOR Version
+\ifthenelse{\equal{\status}{4}} {          % CAMERA-READY AUTHOR Version
     \newcommand{\revise}[2]{#2}
 }{}
 

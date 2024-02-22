@@ -23,8 +23,15 @@
 
 \input{sections/document}
 
-% Uncomment acknowledgement section only for camera-ready
-%\input{sections/acks}
+\ifthenelse{\equal{\status}{0}} {          % INTERNAL Version
+    \input{sections/acks}
+}{}
+\ifthenelse{\equal{\status}{3}} {          % CAMERA-READY Version
+    \input{sections/acks}
+}{}
+\ifthenelse{\equal{\status}{4}} {          % CAMERA-READY AUTHOR Version
+    \input{sections/acks}
+}{}
 
 % Bibliography
 \bibliographystyle{acmart}
