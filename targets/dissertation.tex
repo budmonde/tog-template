@@ -1,4 +1,4 @@
-\documentclass[acmtog, authorversion]{templates/acmart}
+\documentclass{templates/dissertate}
 
 %%%%% Status Meaning %%%%%
 % internal             = 0
@@ -7,10 +7,6 @@
 % camera-ready         = 3
 % camera-ready-author  = 4
 \newcommand{\status}{4}
-
-\input{metadata/acm/tog}
-\input{metadata/acm/paper}
-\input{metadata/acm/index}
 
 \input{conf/packages}
 \input{conf/macros}
@@ -25,24 +21,17 @@
 \begin{document}
 
 % Main
-\input{figures/teaser}
-
-\begin{abstract}
-    \input{content/frontmatter/abstract}
-\end{abstract}
-
+\input{metadata/dissertate/paper}
 \maketitle
-
-\todolist
+\copyrightpage
+\abstractpage
+\tableofcontents
+\listoffigures
+\acknowledgments
 
 \input{content/main}
 
-\begin{acks}
-    \input{content/frontmatter/acks}
-\end{acks}
-
 % Bibliography
-\bibliographystyle{templates/acmart}
 \bibliography{bibliography}
 
 % Supplementary material

@@ -1,0 +1,14 @@
+\appendixpageoff
+\appendixtitleoff
+\renewcommand{\appendixtocname}{Supplementary material}
+\begin{appendices}
+\crefalias{section}{supp}
+\normalsize
+
+\begin{filecontents}{\jobname-support.tex}
+\clearpage
+\pagenumbering{roman}
+\input{content/supplement/0-how-to-use}
+\end{filecontents}
+\include{\jobname-support}
+\end{appendices}

@@ -40,9 +40,8 @@
 \RequirePackage[palatino]{quotchap}
 
 \RequirePackage{kvoptions}
-\DeclareStringOption{School}[]
 \ProcessKeyvalOptions*
-\RequirePackage{packages/\dissertate@School/style}
+\RequirePackage{templates/dissertate}
 
 \RequirePackage{graphicx}
 \RequirePackage{amssymb}
@@ -52,7 +51,7 @@
 \RequirePackage[width=5.75in, letterpaper]{geometry}
 \RequirePackage{fancyhdr}
 
-\usepackage[titletoc]{appendix}
+\usepackage[toc,page,titletoc]{appendix}
 \renewcommand{\setthesection}{\arabic{chapter}.A\arabic{section}}
 
 \RequirePackage{setspace}
@@ -73,6 +72,7 @@
 \RaggedRight
 
 \parindent 12pt
+\RequirePackage{amsmath}
 \RequirePackage{mathspec}
 
 \setmathsfont(Digits,Latin,Greek)[Numbers={Proportional},SizeFeatures={{Size=-8, OpticalSize=8},{Size= 8-, OpticalSize=12}},]{EB Garamond}
@@ -89,7 +89,7 @@
 
 \RequirePackage[labelfont={bf,sf,footnotesize,singlespacing},
 								textfont={sf,footnotesize,singlespacing},
-								justification={justified,RaggedRight},
+								justification={justified},
 								singlelinecheck=false,
 								margin=0pt,
 								figurewithin=chapter,
