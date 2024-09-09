@@ -12,9 +12,12 @@ targets := siggraph-internal\
 	   dissertation
 targets-split := $(foreach target,$(targets), $(target)-split)
 
-.PHONY: all clean $(targets) $(targets-split)
+.PHONY: all demo clean $(targets) $(targets-split)
 
 all: $(targets-split)
+
+demo: $(BUILD_PATH)/siggraph-camready.supplement.compressed.pdf
+	cp $(BUILD_PATH)/siggraph-camready.supplement.compressed.pdf HOWTO.pdf
 
 $(targets): %: $(BUILD_PATH)/%.all.compressed.pdf
 
