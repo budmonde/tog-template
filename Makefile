@@ -47,3 +47,4 @@ $(targets-split): %-split: $(BUILD_PATH)/%.manuscript.compressed.pdf\
 
 clean:
 	rm -rf $(BUILD_PATH)
+	rm comment.cut
