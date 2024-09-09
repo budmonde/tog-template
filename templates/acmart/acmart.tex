@@ -1,0 +1,39 @@
+\input{metadata/acm/tog}
+\input{metadata/acm/paper}
+\input{metadata/acm/index}
+
+\begin{document}
+\input{content/figures/teaser}
+
+\begin{abstract}
+    \input{content/frontmatter/abstract}
+\end{abstract}
+
+\maketitle
+
+\todolist
+
+\input{content/main}
+
+\begin{acks}
+    \input{content/frontmatter/acks}
+\end{acks}
+
+\bibliographystyle{templates/acmart/acmart}
+\bibliography{bibliography}
+
+\appendixpageoff
+\appendixtitleoff
+\renewcommand{\appendixtocname}{Supplementary material}
+\begin{appendices}
+\crefalias{section}{supp}
+\normalsize
+
+\begin{filecontents}{\jobname-support.tex}
+\clearpage
+\pagenumbering{roman}
+\input{content/supplement}
+\end{filecontents}
+\include{\jobname-support}
+\end{appendices}
+\end{document}

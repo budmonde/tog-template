@@ -1,4 +1,4 @@
-\documentclass{templates/dissertate/dissertate}
+\documentclass[acmtog]{templates/acmart/acmart}
 
 %%%%% Status Meaning %%%%%
 % internal             = 0
@@ -6,7 +6,7 @@
 % revision             = 2
 % camera-ready         = 3
 % camera-ready-author  = 4
-\newcommand{\status}{4}
+\newcommand{\status}{3}
 
 \input{conf/packages}
 \input{conf/macros}
@@ -18,23 +18,4 @@
 % \includeonly{}
 %%% Supplementary material configuration %%%
 
-\begin{document}
-
-% Main
-\input{metadata/dissertate/paper}
-\maketitle
-\copyrightpage
-\abstractpage
-\tableofcontents
-\listoffigures
-\acknowledgments
-
-\input{content/main}
-
-% Bibliography
-\bibliography{bibliography}
-
-% Supplementary material
-\input{content/supplement}
-
-\end{document}
+\input{templates/acmart/acmart}

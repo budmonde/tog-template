@@ -4,8 +4,13 @@ TMP := $(foreach exec,$(REQUIRES), $(if $(shell which $(exec)),some string,$(err
 TARGETS_PATH    = targets
 BUILD_PATH      = build
 
-targets := internal submission revision camready camauthor
-targets-split := internal-split submission-split revision-split camready-split camauthor-split
+targets := siggraph-internal\
+           siggraph-submission\
+	   siggraph-revision\
+	   siggraph-camready\
+	   siggraph-camauthor\
+	   dissertation
+targets-split := $(foreach target,$(targets), $(target)-split)
 
 .PHONY: all clean $(targets) $(targets-split)
 
@@ -24,19 +29,17 @@ $(targets-split): %-split: $(BUILD_PATH)/%.manuscript.compressed.pdf\
 	gs -dNOPAUSE -dQUIET -dBATCH -sOutputFile="$*.supplement.pdf" -dFirstPage=$$(echo $$(gs -q -dNODISPLAY -dNOSAFER -c "($*.manuscript.pdf) (r) file runpdfbegin pdfpagecount = quit") + 1 | bc) -dLastPage=$$(gs -q -dNODISPLAY -dNOSAFER -c "($*.all.pdf) (r) file runpdfbegin pdfpagecount = quit") -sDEVICE=pdfwrite "$*.all.pdf"
 
 %.manuscript.pdf : %.all.pdf
-	# Make manuscript version of paper.tex
-	cat $(TARGETS_PATH)/$(*F).tex | sed 's/\\\input{paper}/\\\input{paper.manuscript}/' > $(TARGETS_PATH)/$(*F).manuscript.tex
 	# First generate support files
-	cat paper.tex | sed 's/^.*\\\includeonly{}/% \\\includeonly{}/' > paper.manuscript.tex
+	cat $(TARGETS_PATH)/$(*F).tex | sed 's/^.*\\\includeonly{}/% \\\includeonly{}/' > $(TARGETS_PATH)/$(*F).manuscript.tex
 	pdflatex -jobname=$*.manuscript $(TARGETS_PATH)/$(*F).manuscript.tex
 	# Remove supplement section
-	cat paper.tex | sed 's/^.*\\\includeonly{}/\\\includeonly{}/' > paper.manuscript.tex
+	cat $(TARGETS_PATH)/$(*F).tex | sed 's/^.*\\\includeonly{}/\\\includeonly{}/' > $(TARGETS_PATH)/$(*F).manuscript.tex
 	pdflatex -jobname=$*.manuscript $(TARGETS_PATH)/$(*F).manuscript.tex
 	bibtex $*.manuscript.aux
 	pdflatex -jobname=$*.manuscript $(TARGETS_PATH)/$(*F).manuscript.tex
 	pdflatex -jobname=$*.manuscript $(TARGETS_PATH)/$(*F).manuscript.tex
 	# Clean-up temporary files
-	rm -f paper.manuscript.tex $(TARGETS_PATH)/$(*F).manuscript.tex
+	rm -f $(TARGETS_PATH)/$(*F).manuscript.tex
 
 %.all.pdf :
 	mkdir -p $(BUILD_PATH)
