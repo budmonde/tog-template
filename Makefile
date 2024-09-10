@@ -16,8 +16,8 @@ targets-split := $(foreach target,$(targets), $(target)-split)
 
 all: $(targets-split)
 
-demo: $(BUILD_PATH)/siggraph-camready.supplement.compressed.pdf
-	cp $(BUILD_PATH)/siggraph-camready.supplement.compressed.pdf HOWTO.pdf
+demo: $(BUILD_PATH)/siggraph-internal.supplement.compressed.pdf
+	cp $(BUILD_PATH)/siggraph-internal.supplement.compressed.pdf HOWTO.pdf
 
 $(targets): %: $(BUILD_PATH)/%.all.compressed.pdf
 
