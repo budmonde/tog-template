@@ -1,4 +1,5 @@
-REQUIRES = pdflatex gs
+GS ?= gs
+REQUIRES = pdflatex $(GS)
 TMP := $(foreach exec,$(REQUIRES), $(if $(shell which $(exec)),some string,$(error "No '$(exec)' in PATH")))
 
 TARGETS_PATH    = targets
@@ -26,10 +27,10 @@ $(targets-split): %-split: $(BUILD_PATH)/%.manuscript.compressed.pdf\
    	                   $(BUILD_PATH)/%.all.compressed.pdf
 
 %.compressed.pdf : %.pdf
-	gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.5 -dNOPAUSE -dQUIET -dBATCH -dPrinted=false -sOutputFile=$*.compressed.pdf $*.pdf
+	$(GS) -sDEVICE=pdfwrite -dCompatibilityLevel=1.5 -dNOPAUSE -dQUIET -dBATCH -dPrinted=false -sOutputFile=$*.compressed.pdf $*.pdf
 
 %.supplement.pdf : %.manuscript.pdf %.all.pdf
-	gs -dNOPAUSE -dQUIET -dBATCH -sOutputFile="$*.supplement.pdf" -dFirstPage=$$(echo $$(gs -q -dNODISPLAY -dNOSAFER -c "($*.manuscript.pdf) (r) file runpdfbegin pdfpagecount = quit") + 1 | bc) -dLastPage=$$(gs -q -dNODISPLAY -dNOSAFER -c "($*.all.pdf) (r) file runpdfbegin pdfpagecount = quit") -sDEVICE=pdfwrite "$*.all.pdf"
+	$(GS) -dNOPAUSE -dQUIET -dBATCH -sOutputFile="$*.supplement.pdf" -dFirstPage=$$(echo $$($(GS) -q -dNODISPLAY -dNOSAFER -c "($*.manuscript.pdf) (r) file runpdfbegin pdfpagecount = quit") + 1 | bc) -dLastPage=$$($(GS) -q -dNODISPLAY -dNOSAFER -c "($*.all.pdf) (r) file runpdfbegin pdfpagecount = quit") -sDEVICE=pdfwrite "$*.all.pdf"
 
 %.manuscript.pdf : %.all.pdf
 	# First generate support files
