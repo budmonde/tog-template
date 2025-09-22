@@ -1,6 +1,7 @@
 GS ?= gs
 REQUIRES = pdflatex $(GS)
 TMP := $(foreach exec,$(REQUIRES), $(if $(shell which $(exec)),some string,$(error "No '$(exec)' in PATH")))
+DEPS := $(shell find assets conf content metadata targets templates -type f \( -name '*.pdf' -o -name '*.png' -o -name '*.jpg' -o -name '*.tex' -o -name '*.bst' -o -name '*.cls' \))
 
 TARGETS_PATH    = targets
 BUILD_PATH      = build
@@ -35,22 +36,22 @@ $(targets-split): %-split: $(BUILD_PATH)/%.manuscript.compressed.pdf\
 %.manuscript.pdf : %.all.pdf
 	# First generate support files
 	cat $(TARGETS_PATH)/$(*F).tex | sed 's/^.*\\\includeonly{}/% \\\includeonly{}/' > $(TARGETS_PATH)/$(*F).manuscript.tex
-	pdflatex -jobname=$*.manuscript $(TARGETS_PATH)/$(*F).manuscript.tex
+	pdflatex -interaction=nonstopmode -halt-on-error -jobname=$*.manuscript $(TARGETS_PATH)/$(*F).manuscript.tex
 	# Remove supplement section
 	cat $(TARGETS_PATH)/$(*F).tex | sed 's/^.*\\\includeonly{}/\\\includeonly{}/' > $(TARGETS_PATH)/$(*F).manuscript.tex
-	pdflatex -jobname=$*.manuscript $(TARGETS_PATH)/$(*F).manuscript.tex
-	bibtex $*.manuscript.aux
-	pdflatex -jobname=$*.manuscript $(TARGETS_PATH)/$(*F).manuscript.tex
-	pdflatex -jobname=$*.manuscript $(TARGETS_PATH)/$(*F).manuscript.tex
+	pdflatex -interaction=nonstopmode -halt-on-error -jobname=$*.manuscript $(TARGETS_PATH)/$(*F).manuscript.tex
+	-bibtex $*.manuscript.aux || true
+	pdflatex -interaction=nonstopmode -halt-on-error -jobname=$*.manuscript $(TARGETS_PATH)/$(*F).manuscript.tex
+	pdflatex -interaction=nonstopmode -halt-on-error -jobname=$*.manuscript $(TARGETS_PATH)/$(*F).manuscript.tex
 	# Clean-up temporary files
 	rm -f $(TARGETS_PATH)/$(*F).manuscript.tex
 
-%.all.pdf :
+%.all.pdf : $(DEPS)
 	mkdir -p $(BUILD_PATH)
-	pdflatex -jobname=$*.all $(TARGETS_PATH)/$(*F).tex
-	bibtex $*.all.aux
-	pdflatex -jobname=$*.all $(TARGETS_PATH)/$(*F).tex
-	pdflatex -jobname=$*.all $(TARGETS_PATH)/$(*F).tex
+	pdflatex -interaction=nonstopmode -halt-on-error -jobname=$*.all $(TARGETS_PATH)/$(*F).tex
+	-bibtex $*.all.aux || true
+	pdflatex -interaction=nonstopmode -halt-on-error -jobname=$*.all $(TARGETS_PATH)/$(*F).tex
+	pdflatex -interaction=nonstopmode -halt-on-error -jobname=$*.all $(TARGETS_PATH)/$(*F).tex
 
 clean:
 	rm -rf $(BUILD_PATH)
