@@ -1,42 +1,36 @@
 # ACM TOG / SIGGRAPH Template
 
-This template was adapted from the official ACM template on [overleaf](https://www.overleaf.com/latex/templates/acm-conference-proceedings-primary-article-template/wbvnghjbzwpc), as well as Li-Yi Wei's [research templates](https://github.com/1iyiwei/research-templates).
+This LATEX template was developed to (1) streamline collaborative manuscript editing and (2) automate many processes that manuscripts undergo throughout the publication process of academic papers.
+Many ideas, features, and aspects in this template were adapted from my previous collaborators and mentors such as Qi Sun, Li-Yi Wei and Jane Hoffswell.
+Here are upstream versions of this template from [the official ACM tempalte on overleaf](https://www.overleaf.com/latex/templates/acm-conference-proceedings-primary-article-template/wbvnghjbzwpc), and [Li-Yi Wei's research templates](https://github.com/1iyiwei/research-templates).
 
-The modular organization of source files make it easy to keep your manuscript tidy, and also quick to iterate between generating "draft" and "final" versions of the output documents.
+## Pre-requisites
+
+The Makefile assumes the usage of `pdflatex`, so please make sure to install the `texlive`, `texlive-latex-extra`, `texlive-fonts-recommended`, `texlive-science`, and `texlive-xstring` packages.
+Additionally, `ghostscript` is used for post-compilation PDF document processing such as to separate the document into separate files for the manuscript and supplementary materials.
+See more details on this in `HOWTO.pdf`.
 
 ## Usage
 
-As a pre-requisite make sure to have `make`, `texlive` and `ghostscript` installed on your system.
+The LATEX compilation is managed by a `Makefile`. The `Makefile` features multiple build targets meant for various versions of the document, such as `internal` for sharing between collaborators, and `submission` for anonymous submissions.
+These targets are built by running make `<target_name>` (e.g., `make internal`).
+See `HOWTO.pdf` for details on the various build targets.
 
-To build the project in "draft" or "final" mode, run
+TLDR; run
+
 ```shell
-make draft
+make internal
 ```
 or
 ```shell
-make final
+make submission
 ```
-respectively.
 
-Apart from the expected Latex intermediate files, the build pipeline also separates out the supplementary material section from the manuscript document, and compresses both documents using `ghostscript`.
-
-To clean-up the generated files, run
+To clean-up generated files, run
 ```shell
 make clean
 ```
-## Contents
 
-The main logic of the source file organization is inside `paper.tex` and the bibliography is inside `paper.bib`.
-However, the entry points for build pipelines are in `out_draft.tex` and `out_final.tex` respectively.
-If you're using an external IDE for building the source files, set either of these sources as the entry point of the compilation.
+## Further Details
 
-The rest of the source files are named so that it's easier to navigate through them in overleaf.
-Each group of files are:
-- `conf_<name>.tex` - any configuration / latex definitions you might need
-- `fig_<name>.tex` - figure generation source files
-- `metadata_<name>.tex` - metadata relating to the publication such as authors, journal article number, rights info etc.
-- `sec_<name>.tex` - individual sections that make up the document
-- `tab_<name>.tex` - table generation source files
-
-Additionally, the original manual for ACM template usage document is kept in this repo named `_acmguide.pdf` and `_template_guide.pdf`.
-If you need information regarding specifically the `acmart` class, please refer to these documents.
+For further details on the organization of this repository, see `HOWTO.pdf`.
