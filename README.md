@@ -12,6 +12,8 @@ See more details on this in `HOWTO.pdf`.
 
 ## Usage
 
+### Makefile
+
 The LATEX compilation is managed by a `Makefile`. The `Makefile` features multiple build targets meant for various versions of the document, such as `internal` for sharing between collaborators, and `submission` for anonymous submissions.
 These targets are built by running make `<target_name>` (e.g., `make internal`).
 See `HOWTO.pdf` for details on the various build targets.
@@ -30,6 +32,22 @@ To clean-up generated files, run
 ```shell
 make clean
 ```
+
+### TeXstudio
+
+To directly use this project structure using TeXstudio, load the `config.txss2` session into TeXstudio.
+Alternatively, you can import the `main.tex` file into your TeXstudio window, and specify it as the root file for compilation.
+To change the compile target, edit the `\input{targets/siggraph-internal.tex}` to point to the desired target.
+
+### Overleaf
+
+You can use this template with overleaf by specifying the main document to the desired target to compile.
+This setting can be found under `Menu > Main document`.
+
+### VS Code + LaTeX Workshop
+To use the template in VS Code, please use the LaTeX Workshop extension (`latex-workshop`).
+LaTeX Workshop is configured to use an external `make` command to compile with the build configurations specified in the `.vscode/settings.json` file.
+To change the compile target, edit the `latex-workshop.latex.external.build.args: ["siggraph-internal"]` to the desired recipe.
 
 ## Further Details
 
