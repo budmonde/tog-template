@@ -1,0 +1,32 @@
+{
+    "InternalPDFViewer": {
+        "Embedded": true,
+        "File": "main.pdf"
+    },
+    "Session": {
+        "Bookmarks": [
+        ],
+        "CurrentFile": "targets/siggraph-internal.tex",
+        "FileVersion": 1,
+        "Files": [
+            {
+                "Col": 0,
+                "EditorGroup": 0,
+                "FileName": "main.tex",
+                "FirstLine": 0,
+                "FoldedLines": "",
+                "Line": 0
+            },
+            {
+                "Col": 44,
+                "EditorGroup": 0,
+                "FileName": "targets/siggraph-internal.tex",
+                "FirstLine": 0,
+                "FoldedLines": "",
+                "Line": 18
+            }
+        ],
+        "MasterFile": "",
+        "VerticalSplit": false
+    }
+}
