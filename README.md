@@ -33,19 +33,20 @@ To clean-up generated files, run
 make clean
 ```
 
-### TeXstudio
-
-You can import the `main.tex` file into your TeXstudio window, and specify it as the root file for compilation.
-To change the compile target, edit the symlink of `main.tex` to point to the desired target.
-
 ### Overleaf
 
 You can use this template with overleaf by specifying the main document to the desired compilation target inside `targets/` directory.
 This setting can be found under `Menu > Main document`.
 
+### TeXstudio
+
+You can import the `main.tex` file into your TeXstudio window, and specify it as the root file for compilation.
+To change the compile target, copy the desired target file to overwrite `main.tex`.
+
 ### VS Code + LaTeX Workshop
 To use the template in VS Code, please use the LaTeX Workshop extension (`latex-workshop`).
 The compilation should automatically detect the `main.tex` file as the root file of the project.
+To change the compile target, copy the desired target file to overwrite `main.tex`.
 
 ## Further Details
 
