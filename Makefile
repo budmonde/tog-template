@@ -1,6 +1,7 @@
 # --------------------------------
 # Command pre-requisites
 # --------------------------------
+
 ifeq ($(OS),Windows_NT)
   FIND_EXEC = where
 else
@@ -24,16 +25,18 @@ $(foreach tool,$(OPTIONAL),\
 # --------------------------------
 # Dependencies and Targets
 # --------------------------------
-DEPS := $(shell find assets conf content metadata targets templates -type f \( -name '*.pdf' -o -name '*.png' -o -name '*.jpg' -o -name '*.tex' -o -name '*.bst' -o -name '*.cls' \))
+
+ALL_FILES := $(wildcard **/*.pdf **/*.png **/*.jpg **/*.tex **/*.bst **/*.cls)
+DEPS := $(filter-out build/%,$(ALL_FILES))
 TARGETS_PATH    = targets
 BUILD_PATH      = build
 
 targets := siggraph-internal\
            siggraph-submission\
-	   siggraph-revision\
-	   siggraph-camready\
-	   siggraph-camauthor\
-	   dissertation
+           siggraph-revision\
+           siggraph-camready\
+           siggraph-camauthor\
+           dissertation
 targets-split := $(foreach target,$(targets), $(target)-split)
 
 .PHONY: all demo clean $(targets) $(targets-split)
@@ -53,7 +56,7 @@ $(targets): %: $(BUILD_PATH)/%.all.compressed.pdf
 
 $(targets-split): %-split: $(BUILD_PATH)/%.manuscript.compressed.pdf\
                            $(BUILD_PATH)/%.supplement.compressed.pdf\
-   	                   $(BUILD_PATH)/%.all.compressed.pdf
+                           $(BUILD_PATH)/%.all.compressed.pdf
 
 %.compressed.pdf : %.pdf
 ifeq ($(HAS_GS),yes)
